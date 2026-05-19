@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
 import { Route as AppRiskRouteImport } from './routes/_app.risk'
+import { Route as AppOrgMapRouteImport } from './routes/_app.org-map'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -27,27 +28,35 @@ const AppRiskRoute = AppRiskRouteImport.update({
   path: '/risk',
   getParentRoute: () => AppRoute,
 } as any)
+const AppOrgMapRoute = AppOrgMapRouteImport.update({
+  id: '/org-map',
+  path: '/org-map',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
+  '/org-map': typeof AppOrgMapRoute
   '/risk': typeof AppRiskRoute
 }
 export interface FileRoutesByTo {
+  '/org-map': typeof AppOrgMapRoute
   '/risk': typeof AppRiskRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
+  '/_app/org-map': typeof AppOrgMapRoute
   '/_app/risk': typeof AppRiskRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/risk'
+  fullPaths: '/' | '/org-map' | '/risk'
   fileRoutesByTo: FileRoutesByTo
-  to: '/risk' | '/'
-  id: '__root__' | '/_app' | '/_app/risk' | '/_app/'
+  to: '/org-map' | '/risk' | '/'
+  id: '__root__' | '/_app' | '/_app/org-map' | '/_app/risk' | '/_app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,15 +86,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRiskRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/org-map': {
+      id: '/_app/org-map'
+      path: '/org-map'
+      fullPath: '/org-map'
+      preLoaderRoute: typeof AppOrgMapRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppOrgMapRoute: typeof AppOrgMapRoute
   AppRiskRoute: typeof AppRiskRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppOrgMapRoute: AppOrgMapRoute,
   AppRiskRoute: AppRiskRoute,
   AppIndexRoute: AppIndexRoute,
 }
