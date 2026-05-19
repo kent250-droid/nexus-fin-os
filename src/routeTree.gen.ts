@@ -13,6 +13,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
 import { Route as AppRiskRouteImport } from './routes/_app.risk'
 import { Route as AppOrgMapRouteImport } from './routes/_app.org-map'
+import { Route as AppCollaborationRouteImport } from './routes/_app.collaboration'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -33,13 +34,20 @@ const AppOrgMapRoute = AppOrgMapRouteImport.update({
   path: '/org-map',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCollaborationRoute = AppCollaborationRouteImport.update({
+  id: '/collaboration',
+  path: '/collaboration',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
+  '/collaboration': typeof AppCollaborationRoute
   '/org-map': typeof AppOrgMapRoute
   '/risk': typeof AppRiskRoute
 }
 export interface FileRoutesByTo {
+  '/collaboration': typeof AppCollaborationRoute
   '/org-map': typeof AppOrgMapRoute
   '/risk': typeof AppRiskRoute
   '/': typeof AppIndexRoute
@@ -47,16 +55,23 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
+  '/_app/collaboration': typeof AppCollaborationRoute
   '/_app/org-map': typeof AppOrgMapRoute
   '/_app/risk': typeof AppRiskRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/org-map' | '/risk'
+  fullPaths: '/' | '/collaboration' | '/org-map' | '/risk'
   fileRoutesByTo: FileRoutesByTo
-  to: '/org-map' | '/risk' | '/'
-  id: '__root__' | '/_app' | '/_app/org-map' | '/_app/risk' | '/_app/'
+  to: '/collaboration' | '/org-map' | '/risk' | '/'
+  id:
+    | '__root__'
+    | '/_app'
+    | '/_app/collaboration'
+    | '/_app/org-map'
+    | '/_app/risk'
+    | '/_app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,16 +108,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppOrgMapRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/collaboration': {
+      id: '/_app/collaboration'
+      path: '/collaboration'
+      fullPath: '/collaboration'
+      preLoaderRoute: typeof AppCollaborationRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppCollaborationRoute: typeof AppCollaborationRoute
   AppOrgMapRoute: typeof AppOrgMapRoute
   AppRiskRoute: typeof AppRiskRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppCollaborationRoute: AppCollaborationRoute,
   AppOrgMapRoute: AppOrgMapRoute,
   AppRiskRoute: AppRiskRoute,
   AppIndexRoute: AppIndexRoute,
