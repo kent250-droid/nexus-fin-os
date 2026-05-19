@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
 import { Route as AppRiskRouteImport } from './routes/_app.risk'
+import { Route as AppOrganizationsRouteImport } from './routes/_app.organizations'
 import { Route as AppOrgMapRouteImport } from './routes/_app.org-map'
 import { Route as AppNarrationRouteImport } from './routes/_app.narration'
 import { Route as AppCollaborationRouteImport } from './routes/_app.collaboration'
@@ -29,6 +30,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
 const AppRiskRoute = AppRiskRouteImport.update({
   id: '/risk',
   path: '/risk',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOrganizationsRoute = AppOrganizationsRouteImport.update({
+  id: '/organizations',
+  path: '/organizations',
   getParentRoute: () => AppRoute,
 } as any)
 const AppOrgMapRoute = AppOrgMapRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/collaboration': typeof AppCollaborationRoute
   '/narration': typeof AppNarrationRoute
   '/org-map': typeof AppOrgMapRoute
+  '/organizations': typeof AppOrganizationsRoute
   '/risk': typeof AppRiskRoute
 }
 export interface FileRoutesByTo {
@@ -65,6 +72,7 @@ export interface FileRoutesByTo {
   '/collaboration': typeof AppCollaborationRoute
   '/narration': typeof AppNarrationRoute
   '/org-map': typeof AppOrgMapRoute
+  '/organizations': typeof AppOrganizationsRoute
   '/risk': typeof AppRiskRoute
   '/': typeof AppIndexRoute
 }
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   '/_app/collaboration': typeof AppCollaborationRoute
   '/_app/narration': typeof AppNarrationRoute
   '/_app/org-map': typeof AppOrgMapRoute
+  '/_app/organizations': typeof AppOrganizationsRoute
   '/_app/risk': typeof AppRiskRoute
   '/_app/': typeof AppIndexRoute
 }
@@ -86,9 +95,17 @@ export interface FileRouteTypes {
     | '/collaboration'
     | '/narration'
     | '/org-map'
+    | '/organizations'
     | '/risk'
   fileRoutesByTo: FileRoutesByTo
-  to: '/audit' | '/collaboration' | '/narration' | '/org-map' | '/risk' | '/'
+  to:
+    | '/audit'
+    | '/collaboration'
+    | '/narration'
+    | '/org-map'
+    | '/organizations'
+    | '/risk'
+    | '/'
   id:
     | '__root__'
     | '/_app'
@@ -96,6 +113,7 @@ export interface FileRouteTypes {
     | '/_app/collaboration'
     | '/_app/narration'
     | '/_app/org-map'
+    | '/_app/organizations'
     | '/_app/risk'
     | '/_app/'
   fileRoutesById: FileRoutesById
@@ -125,6 +143,13 @@ declare module '@tanstack/react-router' {
       path: '/risk'
       fullPath: '/risk'
       preLoaderRoute: typeof AppRiskRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/organizations': {
+      id: '/_app/organizations'
+      path: '/organizations'
+      fullPath: '/organizations'
+      preLoaderRoute: typeof AppOrganizationsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/org-map': {
@@ -163,6 +188,7 @@ interface AppRouteChildren {
   AppCollaborationRoute: typeof AppCollaborationRoute
   AppNarrationRoute: typeof AppNarrationRoute
   AppOrgMapRoute: typeof AppOrgMapRoute
+  AppOrganizationsRoute: typeof AppOrganizationsRoute
   AppRiskRoute: typeof AppRiskRoute
   AppIndexRoute: typeof AppIndexRoute
 }
@@ -172,6 +198,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCollaborationRoute: AppCollaborationRoute,
   AppNarrationRoute: AppNarrationRoute,
   AppOrgMapRoute: AppOrgMapRoute,
+  AppOrganizationsRoute: AppOrganizationsRoute,
   AppRiskRoute: AppRiskRoute,
   AppIndexRoute: AppIndexRoute,
 }
