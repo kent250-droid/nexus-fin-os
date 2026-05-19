@@ -9,61 +9,226 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as AppIndexRouteImport } from './routes/_app.index'
+import { Route as AppSyncRouteImport } from './routes/_app.sync'
+import { Route as AppRiskRouteImport } from './routes/_app.risk'
+import { Route as AppOrganizationsRouteImport } from './routes/_app.organizations'
+import { Route as AppOrgMapRouteImport } from './routes/_app.org-map'
+import { Route as AppNarrationRouteImport } from './routes/_app.narration'
+import { Route as AppCollaborationRouteImport } from './routes/_app.collaboration'
+import { Route as AppAuditRouteImport } from './routes/_app.audit'
 
-const IndexRoute = IndexRouteImport.update({
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSyncRoute = AppSyncRouteImport.update({
+  id: '/sync',
+  path: '/sync',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRiskRoute = AppRiskRouteImport.update({
+  id: '/risk',
+  path: '/risk',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOrganizationsRoute = AppOrganizationsRouteImport.update({
+  id: '/organizations',
+  path: '/organizations',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOrgMapRoute = AppOrgMapRouteImport.update({
+  id: '/org-map',
+  path: '/org-map',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNarrationRoute = AppNarrationRouteImport.update({
+  id: '/narration',
+  path: '/narration',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCollaborationRoute = AppCollaborationRouteImport.update({
+  id: '/collaboration',
+  path: '/collaboration',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAuditRoute = AppAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof AppIndexRoute
+  '/audit': typeof AppAuditRoute
+  '/collaboration': typeof AppCollaborationRoute
+  '/narration': typeof AppNarrationRoute
+  '/org-map': typeof AppOrgMapRoute
+  '/organizations': typeof AppOrganizationsRoute
+  '/risk': typeof AppRiskRoute
+  '/sync': typeof AppSyncRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/audit': typeof AppAuditRoute
+  '/collaboration': typeof AppCollaborationRoute
+  '/narration': typeof AppNarrationRoute
+  '/org-map': typeof AppOrgMapRoute
+  '/organizations': typeof AppOrganizationsRoute
+  '/risk': typeof AppRiskRoute
+  '/sync': typeof AppSyncRoute
+  '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/audit': typeof AppAuditRoute
+  '/_app/collaboration': typeof AppCollaborationRoute
+  '/_app/narration': typeof AppNarrationRoute
+  '/_app/org-map': typeof AppOrgMapRoute
+  '/_app/organizations': typeof AppOrganizationsRoute
+  '/_app/risk': typeof AppRiskRoute
+  '/_app/sync': typeof AppSyncRoute
+  '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/audit'
+    | '/collaboration'
+    | '/narration'
+    | '/org-map'
+    | '/organizations'
+    | '/risk'
+    | '/sync'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/audit'
+    | '/collaboration'
+    | '/narration'
+    | '/org-map'
+    | '/organizations'
+    | '/risk'
+    | '/sync'
+    | '/'
+  id:
+    | '__root__'
+    | '/_app'
+    | '/_app/audit'
+    | '/_app/collaboration'
+    | '/_app/narration'
+    | '/_app/org-map'
+    | '/_app/organizations'
+    | '/_app/risk'
+    | '/_app/sync'
+    | '/_app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/': {
+      id: '/_app/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/sync': {
+      id: '/_app/sync'
+      path: '/sync'
+      fullPath: '/sync'
+      preLoaderRoute: typeof AppSyncRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/risk': {
+      id: '/_app/risk'
+      path: '/risk'
+      fullPath: '/risk'
+      preLoaderRoute: typeof AppRiskRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/organizations': {
+      id: '/_app/organizations'
+      path: '/organizations'
+      fullPath: '/organizations'
+      preLoaderRoute: typeof AppOrganizationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/org-map': {
+      id: '/_app/org-map'
+      path: '/org-map'
+      fullPath: '/org-map'
+      preLoaderRoute: typeof AppOrgMapRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/narration': {
+      id: '/_app/narration'
+      path: '/narration'
+      fullPath: '/narration'
+      preLoaderRoute: typeof AppNarrationRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/collaboration': {
+      id: '/_app/collaboration'
+      path: '/collaboration'
+      fullPath: '/collaboration'
+      preLoaderRoute: typeof AppCollaborationRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/audit': {
+      id: '/_app/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AppAuditRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
 
+interface AppRouteChildren {
+  AppAuditRoute: typeof AppAuditRoute
+  AppCollaborationRoute: typeof AppCollaborationRoute
+  AppNarrationRoute: typeof AppNarrationRoute
+  AppOrgMapRoute: typeof AppOrgMapRoute
+  AppOrganizationsRoute: typeof AppOrganizationsRoute
+  AppRiskRoute: typeof AppRiskRoute
+  AppSyncRoute: typeof AppSyncRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAuditRoute: AppAuditRoute,
+  AppCollaborationRoute: AppCollaborationRoute,
+  AppNarrationRoute: AppNarrationRoute,
+  AppOrgMapRoute: AppOrgMapRoute,
+  AppOrganizationsRoute: AppOrganizationsRoute,
+  AppRiskRoute: AppRiskRoute,
+  AppSyncRoute: AppSyncRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

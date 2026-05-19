@@ -7,6 +7,8 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { Toaster } from "@/components/ui/sonner";
 
 import appCss from "../styles.css?url";
 
@@ -72,11 +74,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "SavvyAi — Enterprise Finance OS" },
+      { name: "description", content: "AI-native enterprise finance operating system. Command center, risk intelligence, real-time collaboration." },
+      { name: "author", content: "SavvyAi" },
+      { property: "og:title", content: "SavvyAi — Enterprise Finance OS" },
+      { property: "og:description", content: "The AI operating system for modern organizations." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
@@ -95,13 +97,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
+  // initialize theme from localStorage / system
+  const themeInit = `(()=>{try{const t=localStorage.getItem('theme')||'system';const m=window.matchMedia('(prefers-color-scheme: dark)').matches;const dark=t==='dark'||(t==='system'&&m);document.documentElement.classList.toggle('dark',dark);}catch(e){}})();`;
   return (
     <html lang="en">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         <HeadContent />
       </head>
       <body>
         {children}
+        <Toaster richColors position="top-right" />
         <Scripts />
       </body>
     </html>
