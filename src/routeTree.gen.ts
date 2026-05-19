@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
+import { Route as AppSyncRouteImport } from './routes/_app.sync'
 import { Route as AppRiskRouteImport } from './routes/_app.risk'
 import { Route as AppOrganizationsRouteImport } from './routes/_app.organizations'
 import { Route as AppOrgMapRouteImport } from './routes/_app.org-map'
@@ -25,6 +26,11 @@ const AppRoute = AppRouteImport.update({
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSyncRoute = AppSyncRouteImport.update({
+  id: '/sync',
+  path: '/sync',
   getParentRoute: () => AppRoute,
 } as any)
 const AppRiskRoute = AppRiskRouteImport.update({
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/org-map': typeof AppOrgMapRoute
   '/organizations': typeof AppOrganizationsRoute
   '/risk': typeof AppRiskRoute
+  '/sync': typeof AppSyncRoute
 }
 export interface FileRoutesByTo {
   '/audit': typeof AppAuditRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/org-map': typeof AppOrgMapRoute
   '/organizations': typeof AppOrganizationsRoute
   '/risk': typeof AppRiskRoute
+  '/sync': typeof AppSyncRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/_app/org-map': typeof AppOrgMapRoute
   '/_app/organizations': typeof AppOrganizationsRoute
   '/_app/risk': typeof AppRiskRoute
+  '/_app/sync': typeof AppSyncRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/org-map'
     | '/organizations'
     | '/risk'
+    | '/sync'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/audit'
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
     | '/org-map'
     | '/organizations'
     | '/risk'
+    | '/sync'
     | '/'
   id:
     | '__root__'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '/_app/org-map'
     | '/_app/organizations'
     | '/_app/risk'
+    | '/_app/sync'
     | '/_app/'
   fileRoutesById: FileRoutesById
 }
@@ -136,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/sync': {
+      id: '/_app/sync'
+      path: '/sync'
+      fullPath: '/sync'
+      preLoaderRoute: typeof AppSyncRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/risk': {
@@ -190,6 +209,7 @@ interface AppRouteChildren {
   AppOrgMapRoute: typeof AppOrgMapRoute
   AppOrganizationsRoute: typeof AppOrganizationsRoute
   AppRiskRoute: typeof AppRiskRoute
+  AppSyncRoute: typeof AppSyncRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
@@ -200,6 +220,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppOrgMapRoute: AppOrgMapRoute,
   AppOrganizationsRoute: AppOrganizationsRoute,
   AppRiskRoute: AppRiskRoute,
+  AppSyncRoute: AppSyncRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
