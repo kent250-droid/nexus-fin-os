@@ -12,6 +12,7 @@ const navLinks = [
   { label: "About", path: "/about" },
   { label: "SmartScan AI", path: "/smartscan" },
   { label: "Contact", path: "/contact" },
+  { label: "Enterprise Console", path: "/app" },
 ];
 
 export function Navbar() {
