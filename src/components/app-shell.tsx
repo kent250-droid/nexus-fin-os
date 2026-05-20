@@ -5,7 +5,6 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "./theme-toggle";
-import { Copilot } from "./copilot";
 import { ORGS } from "@/lib/mock";
 
 const NAV = [
@@ -126,7 +125,6 @@ export function AppShell() {
         </main>
       </div>
 
-      <Copilot />
     </div>
   );
 }
