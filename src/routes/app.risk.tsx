@@ -3,7 +3,7 @@ import { ShieldAlert, Eye, Ban, Check, Sparkles } from "lucide-react";
 import { PageHeader, Panel, RiskBadge } from "@/components/primitives";
 import { TRANSACTIONS } from "@/lib/mock";
 
-export const Route = createFileRoute("/_app/risk")({ component: RiskPage });
+export const Route = createFileRoute("/app/risk")({ component: RiskPage });
 
 const REASONS: Record<string, string[]> = {
   "TXN-9814": ["Amount 12× supplier average", "New banking details (24h)", "Approver outside policy window"],

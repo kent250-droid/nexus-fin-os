@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/marketing/contexts/AuthContext";
+import { Copilot } from "@/components/copilot";
 
 import appCss from "../styles.css?url";
 
@@ -119,7 +121,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <AuthProvider>
+        <Outlet />
+        <Copilot />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

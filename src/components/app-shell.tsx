@@ -5,18 +5,17 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "./theme-toggle";
-import { Copilot } from "./copilot";
 import { ORGS } from "@/lib/mock";
 
 const NAV = [
-  { to: "/", label: "Command Center", icon: LayoutDashboard },
-  { to: "/risk", label: "Risk Intelligence", icon: ShieldAlert },
-  { to: "/org-map", label: "Organization Map", icon: Network },
-  { to: "/collaboration", label: "Collaboration", icon: MessagesSquare },
-  { to: "/audit", label: "Audit Trail", icon: ScrollText },
-  { to: "/narration", label: "Voice Briefing", icon: AudioLines },
-  { to: "/organizations", label: "Organizations", icon: Building2 },
-  { to: "/sync", label: "Cloud Sync", icon: RefreshCcw },
+  { to: "/app", label: "Command Center", icon: LayoutDashboard },
+  { to: "/app/risk", label: "Risk Intelligence", icon: ShieldAlert },
+  { to: "/app/org-map", label: "Organization Map", icon: Network },
+  { to: "/app/collaboration", label: "Collaboration", icon: MessagesSquare },
+  { to: "/app/audit", label: "Audit Trail", icon: ScrollText },
+  { to: "/app/narration", label: "Voice Briefing", icon: AudioLines },
+  { to: "/app/organizations", label: "Organizations", icon: Building2 },
+  { to: "/app/sync", label: "Cloud Sync", icon: RefreshCcw },
 ] as const;
 
 export function AppShell() {
@@ -91,7 +90,7 @@ export function AppShell() {
         {/* Topbar */}
         <header className="sticky top-0 z-30 glass-strong border-b border-border/50">
           <div className="flex items-center gap-3 px-4 lg:px-8 h-16">
-            <Link to="/" className="lg:hidden flex items-center gap-2">
+            <Link to="/app" className="lg:hidden flex items-center gap-2">
               <div className="size-8 rounded-lg gradient-aurora animate-aurora grid place-items-center">
                 <Sparkles className="size-4 text-white" />
               </div>
@@ -126,7 +125,6 @@ export function AppShell() {
         </main>
       </div>
 
-      <Copilot />
     </div>
   );
 }

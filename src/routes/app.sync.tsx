@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Cloud, CloudOff, RefreshCcw, Check, HardDrive } from "lucide-react";
 import { PageHeader, Panel } from "@/components/primitives";
 
-export const Route = createFileRoute("/_app/sync")({ component: Sync });
+export const Route = createFileRoute("/app/sync")({ component: Sync });
 
 function Sync() {
   const [online, setOnline] = useState(true);

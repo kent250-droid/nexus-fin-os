@@ -9,18 +9,67 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AppRouteImport } from './routes/_app'
-import { Route as AppIndexRouteImport } from './routes/_app.index'
-import { Route as AppSyncRouteImport } from './routes/_app.sync'
-import { Route as AppRiskRouteImport } from './routes/_app.risk'
-import { Route as AppOrganizationsRouteImport } from './routes/_app.organizations'
-import { Route as AppOrgMapRouteImport } from './routes/_app.org-map'
-import { Route as AppNarrationRouteImport } from './routes/_app.narration'
-import { Route as AppCollaborationRouteImport } from './routes/_app.collaboration'
-import { Route as AppAuditRouteImport } from './routes/_app.audit'
+import { Route as SmartscanRouteImport } from './routes/smartscan'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as FeaturesRouteImport } from './routes/features'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ChatRouteImport } from './routes/chat'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppSyncRouteImport } from './routes/app.sync'
+import { Route as AppRiskRouteImport } from './routes/app.risk'
+import { Route as AppOrganizationsRouteImport } from './routes/app.organizations'
+import { Route as AppOrgMapRouteImport } from './routes/app.org-map'
+import { Route as AppNarrationRouteImport } from './routes/app.narration'
+import { Route as AppCollaborationRouteImport } from './routes/app.collaboration'
+import { Route as AppAuditRouteImport } from './routes/app.audit'
 
+const SmartscanRoute = SmartscanRouteImport.update({
+  id: '/smartscan',
+  path: '/smartscan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesRoute = FeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppRoute = AppRouteImport.update({
-  id: '/_app',
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -65,137 +114,251 @@ const AppAuditRoute = AppAuditRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AppIndexRoute
-  '/audit': typeof AppAuditRoute
-  '/collaboration': typeof AppCollaborationRoute
-  '/narration': typeof AppNarrationRoute
-  '/org-map': typeof AppOrgMapRoute
-  '/organizations': typeof AppOrganizationsRoute
-  '/risk': typeof AppRiskRoute
-  '/sync': typeof AppSyncRoute
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/app': typeof AppRouteWithChildren
+  '/chat': typeof ChatRoute
+  '/contact': typeof ContactRoute
+  '/features': typeof FeaturesRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/smartscan': typeof SmartscanRoute
+  '/app/audit': typeof AppAuditRoute
+  '/app/collaboration': typeof AppCollaborationRoute
+  '/app/narration': typeof AppNarrationRoute
+  '/app/org-map': typeof AppOrgMapRoute
+  '/app/organizations': typeof AppOrganizationsRoute
+  '/app/risk': typeof AppRiskRoute
+  '/app/sync': typeof AppSyncRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
-  '/audit': typeof AppAuditRoute
-  '/collaboration': typeof AppCollaborationRoute
-  '/narration': typeof AppNarrationRoute
-  '/org-map': typeof AppOrgMapRoute
-  '/organizations': typeof AppOrganizationsRoute
-  '/risk': typeof AppRiskRoute
-  '/sync': typeof AppSyncRoute
-  '/': typeof AppIndexRoute
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/chat': typeof ChatRoute
+  '/contact': typeof ContactRoute
+  '/features': typeof FeaturesRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/smartscan': typeof SmartscanRoute
+  '/app/audit': typeof AppAuditRoute
+  '/app/collaboration': typeof AppCollaborationRoute
+  '/app/narration': typeof AppNarrationRoute
+  '/app/org-map': typeof AppOrgMapRoute
+  '/app/organizations': typeof AppOrganizationsRoute
+  '/app/risk': typeof AppRiskRoute
+  '/app/sync': typeof AppSyncRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/_app': typeof AppRouteWithChildren
-  '/_app/audit': typeof AppAuditRoute
-  '/_app/collaboration': typeof AppCollaborationRoute
-  '/_app/narration': typeof AppNarrationRoute
-  '/_app/org-map': typeof AppOrgMapRoute
-  '/_app/organizations': typeof AppOrganizationsRoute
-  '/_app/risk': typeof AppRiskRoute
-  '/_app/sync': typeof AppSyncRoute
-  '/_app/': typeof AppIndexRoute
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/app': typeof AppRouteWithChildren
+  '/chat': typeof ChatRoute
+  '/contact': typeof ContactRoute
+  '/features': typeof FeaturesRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/smartscan': typeof SmartscanRoute
+  '/app/audit': typeof AppAuditRoute
+  '/app/collaboration': typeof AppCollaborationRoute
+  '/app/narration': typeof AppNarrationRoute
+  '/app/org-map': typeof AppOrgMapRoute
+  '/app/organizations': typeof AppOrganizationsRoute
+  '/app/risk': typeof AppRiskRoute
+  '/app/sync': typeof AppSyncRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/audit'
-    | '/collaboration'
-    | '/narration'
-    | '/org-map'
-    | '/organizations'
-    | '/risk'
-    | '/sync'
+    | '/about'
+    | '/app'
+    | '/chat'
+    | '/contact'
+    | '/features'
+    | '/login'
+    | '/signup'
+    | '/smartscan'
+    | '/app/audit'
+    | '/app/collaboration'
+    | '/app/narration'
+    | '/app/org-map'
+    | '/app/organizations'
+    | '/app/risk'
+    | '/app/sync'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/audit'
-    | '/collaboration'
-    | '/narration'
-    | '/org-map'
-    | '/organizations'
-    | '/risk'
-    | '/sync'
     | '/'
+    | '/about'
+    | '/chat'
+    | '/contact'
+    | '/features'
+    | '/login'
+    | '/signup'
+    | '/smartscan'
+    | '/app/audit'
+    | '/app/collaboration'
+    | '/app/narration'
+    | '/app/org-map'
+    | '/app/organizations'
+    | '/app/risk'
+    | '/app/sync'
+    | '/app'
   id:
     | '__root__'
-    | '/_app'
-    | '/_app/audit'
-    | '/_app/collaboration'
-    | '/_app/narration'
-    | '/_app/org-map'
-    | '/_app/organizations'
-    | '/_app/risk'
-    | '/_app/sync'
-    | '/_app/'
+    | '/'
+    | '/about'
+    | '/app'
+    | '/chat'
+    | '/contact'
+    | '/features'
+    | '/login'
+    | '/signup'
+    | '/smartscan'
+    | '/app/audit'
+    | '/app/collaboration'
+    | '/app/narration'
+    | '/app/org-map'
+    | '/app/organizations'
+    | '/app/risk'
+    | '/app/sync'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   AppRoute: typeof AppRouteWithChildren
+  ChatRoute: typeof ChatRoute
+  ContactRoute: typeof ContactRoute
+  FeaturesRoute: typeof FeaturesRoute
+  LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
+  SmartscanRoute: typeof SmartscanRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_app': {
-      id: '/_app'
-      path: ''
-      fullPath: '/'
+    '/smartscan': {
+      id: '/smartscan'
+      path: '/smartscan'
+      fullPath: '/smartscan'
+      preLoaderRoute: typeof SmartscanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features': {
+      id: '/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof FeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_app/': {
-      id: '/_app/'
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
       path: '/'
       fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/sync': {
-      id: '/_app/sync'
+    '/app/sync': {
+      id: '/app/sync'
       path: '/sync'
-      fullPath: '/sync'
+      fullPath: '/app/sync'
       preLoaderRoute: typeof AppSyncRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/risk': {
-      id: '/_app/risk'
+    '/app/risk': {
+      id: '/app/risk'
       path: '/risk'
-      fullPath: '/risk'
+      fullPath: '/app/risk'
       preLoaderRoute: typeof AppRiskRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/organizations': {
-      id: '/_app/organizations'
+    '/app/organizations': {
+      id: '/app/organizations'
       path: '/organizations'
-      fullPath: '/organizations'
+      fullPath: '/app/organizations'
       preLoaderRoute: typeof AppOrganizationsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/org-map': {
-      id: '/_app/org-map'
+    '/app/org-map': {
+      id: '/app/org-map'
       path: '/org-map'
-      fullPath: '/org-map'
+      fullPath: '/app/org-map'
       preLoaderRoute: typeof AppOrgMapRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/narration': {
-      id: '/_app/narration'
+    '/app/narration': {
+      id: '/app/narration'
       path: '/narration'
-      fullPath: '/narration'
+      fullPath: '/app/narration'
       preLoaderRoute: typeof AppNarrationRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/collaboration': {
-      id: '/_app/collaboration'
+    '/app/collaboration': {
+      id: '/app/collaboration'
       path: '/collaboration'
-      fullPath: '/collaboration'
+      fullPath: '/app/collaboration'
       preLoaderRoute: typeof AppCollaborationRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/audit': {
-      id: '/_app/audit'
+    '/app/audit': {
+      id: '/app/audit'
       path: '/audit'
-      fullPath: '/audit'
+      fullPath: '/app/audit'
       preLoaderRoute: typeof AppAuditRouteImport
       parentRoute: typeof AppRoute
     }
@@ -227,18 +390,16 @@ const AppRouteChildren: AppRouteChildren = {
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   AppRoute: AppRouteWithChildren,
+  ChatRoute: ChatRoute,
+  ContactRoute: ContactRoute,
+  FeaturesRoute: FeaturesRoute,
+  LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
+  SmartscanRoute: SmartscanRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

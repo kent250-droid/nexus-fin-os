@@ -8,7 +8,7 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   approval: CheckSquare, edit: FileEdit, ai: Sparkles, report: ShieldCheck, auth: LogIn, close: UserCog,
 };
 
-export const Route = createFileRoute("/_app/audit")({ component: AuditPage });
+export const Route = createFileRoute("/app/audit")({ component: AuditPage });
 
 function AuditPage() {
   const [q, setQ] = useState("");
