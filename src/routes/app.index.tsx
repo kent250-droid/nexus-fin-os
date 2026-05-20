@@ -10,7 +10,7 @@ import {
 import { PageHeader, Panel, RiskBadge, StatCard } from "@/components/primitives";
 import { ALERTS, CASHFLOW, DEPARTMENTS, REVENUE, TRANSACTIONS } from "@/lib/mock";
 
-export const Route = createFileRoute("/_app/")({
+export const Route = createFileRoute("/app/")({
   component: CommandCenter,
 });
 

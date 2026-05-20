@@ -3,7 +3,7 @@ import { useState } from "react";
 import { PageHeader, Panel } from "@/components/primitives";
 import { ORG_EDGES, ORG_NODES } from "@/lib/mock";
 
-export const Route = createFileRoute("/_app/org-map")({ component: OrgMap });
+export const Route = createFileRoute("/app/org-map")({ component: OrgMap });
 
 function OrgMap() {
   const [hover, setHover] = useState<string | null>(null);

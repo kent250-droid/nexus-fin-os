@@ -4,7 +4,7 @@ import { PageHeader, Panel } from "@/components/primitives";
 import { ORGS } from "@/lib/mock";
 import { useState } from "react";
 
-export const Route = createFileRoute("/_app/organizations")({ component: Orgs });
+export const Route = createFileRoute("/app/organizations")({ component: Orgs });
 
 function Orgs() {
   const [active, setActive] = useState("nova");

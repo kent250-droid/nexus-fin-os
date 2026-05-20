@@ -4,7 +4,7 @@ import { Send, AtSign } from "lucide-react";
 import { PageHeader, Panel } from "@/components/primitives";
 import { COLLAB_MESSAGES } from "@/lib/mock";
 
-export const Route = createFileRoute("/_app/collaboration")({ component: Collab });
+export const Route = createFileRoute("/app/collaboration")({ component: Collab });
 
 const PEOPLE = [
   { n: "Amara Osei", r: "CFO", c: "from-blue-500 to-cyan-400", on: true },

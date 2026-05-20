@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Play, Pause, SkipForward, AudioLines } from "lucide-react";
 import { PageHeader, Panel } from "@/components/primitives";
 
-export const Route = createFileRoute("/_app/narration")({ component: Narration });
+export const Route = createFileRoute("/app/narration")({ component: Narration });
 
 const BRIEFINGS = [
   { t: "Executive Daily Briefing", d: "1:42", text: "Monthly revenue increased by 12%. Three high-risk transactions detected. Procurement expenses exceeded the planned budget." },
