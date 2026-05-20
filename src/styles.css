@@ -253,3 +253,22 @@
   background-size: 200% 100%;
   animation: shimmer 2.4s infinite;
 }
+  /* SavvyAi marketing-site utility classes (preserved from original site) */
+  .glass-card {
+    background: color-mix(in oklab, var(--card) 75%, transparent);
+    border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  .gradient-hero {
+    background: linear-gradient(135deg, oklch(0.18 0.05 260) 0%, oklch(0.22 0.06 262) 100%);
+  }
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  .font-heading { font-family: "Space Grotesk", system-ui, sans-serif; }
+  .font-body { font-family: "Inter", system-ui, sans-serif; }
+}
