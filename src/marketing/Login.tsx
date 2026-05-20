@@ -48,7 +48,14 @@ export default function Login() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <div className="glass-card rounded-2xl p-8 shadow-glow">
+        <div className="glass-card rounded-2xl p-8 shadow-glow relative">
+          <Link
+            to="/"
+            className="absolute top-4 right-4 p-2 rounded-lg glass text-muted-foreground hover:text-foreground transition-colors"
+            title="Back to home"
+          >
+            <Home className="size-4" />
+          </Link>
           <div className="text-center mb-8">
             <Link to="/" className="inline-flex items-center gap-2 mb-4">
               <div className="gradient-primary rounded-lg p-1.5">
