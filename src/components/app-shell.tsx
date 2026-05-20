@@ -2,6 +2,7 @@ import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, ShieldAlert, Network, MessagesSquare, ScrollText,
   AudioLines, Building2, RefreshCcw, Sparkles, Search, Bell, Wifi, WifiOff,
+  Home,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "./theme-toggle";
