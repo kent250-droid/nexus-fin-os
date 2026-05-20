@@ -91,7 +91,7 @@ export function AppShell() {
         {/* Topbar */}
         <header className="sticky top-0 z-30 glass-strong border-b border-border/50">
           <div className="flex items-center gap-3 px-4 lg:px-8 h-16">
-            <Link to="/" className="lg:hidden flex items-center gap-2">
+            <Link to="/app" className="lg:hidden flex items-center gap-2">
               <div className="size-8 rounded-lg gradient-aurora animate-aurora grid place-items-center">
                 <Sparkles className="size-4 text-white" />
               </div>
