@@ -9,14 +9,14 @@ import { Copilot } from "./copilot";
 import { ORGS } from "@/lib/mock";
 
 const NAV = [
-  { to: "/", label: "Command Center", icon: LayoutDashboard },
-  { to: "/risk", label: "Risk Intelligence", icon: ShieldAlert },
-  { to: "/org-map", label: "Organization Map", icon: Network },
-  { to: "/collaboration", label: "Collaboration", icon: MessagesSquare },
-  { to: "/audit", label: "Audit Trail", icon: ScrollText },
-  { to: "/narration", label: "Voice Briefing", icon: AudioLines },
-  { to: "/organizations", label: "Organizations", icon: Building2 },
-  { to: "/sync", label: "Cloud Sync", icon: RefreshCcw },
+  { to: "/app", label: "Command Center", icon: LayoutDashboard },
+  { to: "/app/risk", label: "Risk Intelligence", icon: ShieldAlert },
+  { to: "/app/org-map", label: "Organization Map", icon: Network },
+  { to: "/app/collaboration", label: "Collaboration", icon: MessagesSquare },
+  { to: "/app/audit", label: "Audit Trail", icon: ScrollText },
+  { to: "/app/narration", label: "Voice Briefing", icon: AudioLines },
+  { to: "/app/organizations", label: "Organizations", icon: Building2 },
+  { to: "/app/sync", label: "Cloud Sync", icon: RefreshCcw },
 ] as const;
 
 export function AppShell() {
