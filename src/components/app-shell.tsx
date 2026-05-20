@@ -9,6 +9,7 @@ import { ThemeToggle } from "./theme-toggle";
 import { ORGS } from "@/lib/mock";
 
 const NAV = [
+  { to: "/", label: "Home", icon: Home },
   { to: "/app", label: "Command Center", icon: LayoutDashboard },
   { to: "/app/risk", label: "Risk Intelligence", icon: ShieldAlert },
   { to: "/app/org-map", label: "Organization Map", icon: Network },
@@ -97,7 +98,7 @@ export function AppShell() {
               </div>
               <span className="font-semibold text-sm">Home</span>
             </Link>
-            <Link to="/app" className="lg:hidden flex items-center gap-2">
+            <Link to="/" className="lg:hidden flex items-center gap-2" title="Back to home">
               <div className="size-8 rounded-lg gradient-aurora animate-aurora grid place-items-center">
                 <Sparkles className="size-4 text-white" />
               </div>
