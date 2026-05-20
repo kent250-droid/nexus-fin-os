@@ -24,7 +24,7 @@ export function Navbar() {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate("/");
+    navigate({ to: "/" });
   };
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-card">

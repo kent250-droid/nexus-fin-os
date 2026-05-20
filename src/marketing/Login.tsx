@@ -31,7 +31,7 @@ export default function Login() {
         }
       } else {
         toast.success("Welcome back!");
-        navigate("/");
+        navigate({ to: "/" });
       }
     } catch {
       toast.error("Something went wrong. Please try again.");
