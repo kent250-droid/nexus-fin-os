@@ -10,6 +10,7 @@ import {
 import { useEffect } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/marketing/contexts/AuthContext";
+import { Copilot } from "@/components/copilot";
 
 import appCss from "../styles.css?url";
 
@@ -122,6 +123,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Outlet />
+        <Copilot />
       </AuthProvider>
     </QueryClientProvider>
   );
