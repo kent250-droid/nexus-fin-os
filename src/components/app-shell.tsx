@@ -9,6 +9,7 @@ import { ThemeToggle } from "./theme-toggle";
 import { ORGS } from "@/lib/mock";
 
 const NAV = [
+  { to: "/", label: "Home", icon: Home },
   { to: "/app", label: "Command Center", icon: LayoutDashboard },
   { to: "/app/risk", label: "Risk Intelligence", icon: ShieldAlert },
   { to: "/app/org-map", label: "Organization Map", icon: Network },
