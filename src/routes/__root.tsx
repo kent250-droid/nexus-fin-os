@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/marketing/contexts/AuthContext";
 import { Copilot } from "@/components/copilot";
+import { AskSavvyButton } from "@/marketing/components/AskSavvyButton";
 
 import appCss from "../styles.css?url";
 
@@ -100,7 +101,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   // initialize theme from localStorage / system
-  const themeInit = `(()=>{try{const t=localStorage.getItem('theme')||'system';const m=window.matchMedia('(prefers-color-scheme: dark)').matches;const dark=t==='dark'||(t==='system'&&m);document.documentElement.classList.toggle('dark',dark);}catch(e){}})();`;
+  // Default to dark navy (SavvyAi brand) unless the user has explicitly chosen light.
+  const themeInit = `(()=>{try{const t=localStorage.getItem('theme');const dark=t!=='light';document.documentElement.classList.toggle('dark',dark);}catch(e){document.documentElement.classList.add('dark');}})();`;
   return (
     <html lang="en">
       <head>
@@ -124,6 +126,7 @@ function RootComponent() {
       <AuthProvider>
         <Outlet />
         <Copilot />
+        <AskSavvyButton />
       </AuthProvider>
     </QueryClientProvider>
   );
