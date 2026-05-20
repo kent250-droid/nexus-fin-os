@@ -1,5 +1,5 @@
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { Navbar } from "@/marketing/components/Navbar";
+import { Footer } from "@/marketing/components/Footer";
 import { motion } from "framer-motion";
 import { Sparkles, Lock, Feather, Target, Eye, Brain, Receipt, Utensils, Car, Tv, Home, ShoppingBag, HeartPulse } from "lucide-react";
 

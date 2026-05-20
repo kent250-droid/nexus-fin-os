@@ -1,5 +1,5 @@
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { Navbar } from "@/marketing/components/Navbar";
+import { Footer } from "@/marketing/components/Footer";
 import { motion } from "framer-motion";
 import { TrendingUp, Wallet, BarChart3, Tags, Lightbulb, ShieldCheck } from "lucide-react";
 

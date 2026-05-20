@@ -6,8 +6,8 @@ import {
   Lock, History, Users, Send, X, ZoomIn, ZoomOut, Maximize2, ChevronLeft,
   ChevronRight, Workflow, BadgeCheck, DollarSign, FileWarning, Bot
 } from "lucide-react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { Navbar } from "@/marketing/components/Navbar";
+import { Footer } from "@/marketing/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
