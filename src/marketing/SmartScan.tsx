@@ -389,6 +389,14 @@ export default function SmartScan() {
                 <div className="text-center w-full max-w-md">
                   <p className="text-sm font-medium mb-2">{SCAN_STEPS[scanStep]}</p>
                   <Progress value={progress} />
+                  {ocrPreview && (
+                    <div className="mt-4 text-left rounded-lg border border-border bg-secondary/60 p-3 max-h-32 overflow-auto">
+                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-1">
+                        <ScanLine className="h-3 w-3" /> Live extraction
+                      </p>
+                      <pre className="text-xs whitespace-pre-wrap font-mono leading-relaxed">{ocrPreview}</pre>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             )}
@@ -515,6 +523,72 @@ export default function SmartScan() {
                       {active.flags.map((f) => (
                         <span key={f} className="text-[11px] px-2 py-0.5 rounded-full bg-destructive/15 text-destructive flex items-center gap-1"><AlertTriangle className="h-3 w-3" />{f}</span>
                       ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* AI Tools */}
+                <div className="md:col-span-2 rounded-lg border border-primary/30 bg-primary/5 p-4">
+                  <h4 className="font-semibold text-sm mb-3 flex items-center gap-2">
+                    <Wand2 className="h-4 w-4 text-primary" /> AI Tools
+                  </h4>
+                  <div className="flex flex-wrap gap-2 items-center">
+                    <Button size="sm" disabled={aiBusy !== null} onClick={() => runAITask("summary")} className="gradient-primary border-0 text-primary-foreground">
+                      {aiBusy === "summary" ? <Loader2 className="h-3 w-3 animate-spin" /> : <BookOpen className="h-3 w-3" />} Summarize
+                    </Button>
+                    <Button size="sm" variant="outline" disabled={aiBusy !== null} onClick={() => runAITask("keywords")}>
+                      {aiBusy === "keywords" ? <Loader2 className="h-3 w-3 animate-spin" /> : <KeyRound className="h-3 w-3" />} Keywords
+                    </Button>
+                    <div className="flex items-center gap-1">
+                      <select
+                        value={translateLang}
+                        onChange={(e) => setTranslateLang(e.target.value)}
+                        className="h-8 rounded-md border border-input bg-background text-xs px-2"
+                      >
+                        {LANGUAGES.map((l) => <option key={l}>{l}</option>)}
+                      </select>
+                      <Button size="sm" variant="outline" disabled={aiBusy !== null} onClick={() => runAITask("translate")}>
+                        {aiBusy === "translate" ? <Loader2 className="h-3 w-3 animate-spin" /> : <Languages className="h-3 w-3" />} Translate
+                      </Button>
+                    </div>
+                    <Button size="sm" variant="outline" onClick={() => speak(active.summary || active.extractedText || active.title)}>
+                      {speaking ? <VolumeX className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />} {speaking ? "Stop" : "Narrate"}
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={exportPDF}>
+                      <Download className="h-3 w-3" /> Export PDF
+                    </Button>
+                  </div>
+
+                  {(active.summary || active.keywords?.length || active.translation || active.extractedText) && (
+                    <div className="grid md:grid-cols-2 gap-3 mt-4">
+                      {active.summary && (
+                        <div className="rounded-md bg-background/60 border border-border p-3">
+                          <p className="text-[10px] uppercase text-muted-foreground mb-1">AI Summary</p>
+                          <p className="text-xs whitespace-pre-wrap leading-relaxed">{active.summary}</p>
+                        </div>
+                      )}
+                      {active.keywords?.length ? (
+                        <div className="rounded-md bg-background/60 border border-border p-3">
+                          <p className="text-[10px] uppercase text-muted-foreground mb-2">Keywords</p>
+                          <div className="flex flex-wrap gap-1">
+                            {active.keywords.map((k) => (
+                              <span key={k} className="text-[11px] px-2 py-0.5 rounded-full bg-primary/15 text-primary">{k}</span>
+                            ))}
+                          </div>
+                        </div>
+                      ) : null}
+                      {active.translation && (
+                        <div className="rounded-md bg-background/60 border border-border p-3 md:col-span-2">
+                          <p className="text-[10px] uppercase text-muted-foreground mb-1">Translation · {active.translation.lang}</p>
+                          <p className="text-xs whitespace-pre-wrap leading-relaxed">{active.translation.text}</p>
+                        </div>
+                      )}
+                      {active.extractedText && (
+                        <div className="rounded-md bg-background/60 border border-border p-3 md:col-span-2">
+                          <p className="text-[10px] uppercase text-muted-foreground mb-1">Extracted Text (OCR)</p>
+                          <pre className="text-[11px] font-mono whitespace-pre-wrap max-h-40 overflow-auto leading-relaxed">{active.extractedText || "(no text recognized)"}</pre>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
