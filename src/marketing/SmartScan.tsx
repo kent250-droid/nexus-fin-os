@@ -4,7 +4,8 @@ import {
   Upload, Camera, FileText, Loader2, ShieldCheck, AlertTriangle, Sparkles,
   ScanLine, CheckCircle2, Clock, TrendingUp, Receipt, Building2, FileSearch,
   Lock, History, Users, Send, X, ZoomIn, ZoomOut, Maximize2, ChevronLeft,
-  ChevronRight, Workflow, BadgeCheck, DollarSign, FileWarning, Bot
+  ChevronRight, Workflow, BadgeCheck, DollarSign, FileWarning, Bot,
+  Languages, KeyRound, Volume2, VolumeX, Download, BookOpen, Wand2
 } from "lucide-react";
 import { Navbar } from "@/marketing/components/Navbar";
 import { Footer } from "@/marketing/components/Footer";
@@ -13,14 +14,24 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useServerFn } from "@tanstack/react-start";
+import { smartscanAI } from "@/lib/smartscan.functions";
+import { toast } from "sonner";
+import jsPDF from "jspdf";
 
 // ---------- Mock data generator ----------
 const SCAN_STEPS = [
-  "Analyzing document...",
+  "Uploading document...",
+  "Initializing OCR engine...",
+  "Recognizing characters...",
+  "Detecting handwriting & layout...",
   "Extracting financial data...",
-  "Detecting supplier details...",
-  "Calculating tax values...",
-  "Checking for duplicates...",
+  "Running AI analysis...",
+];
+
+const LANGUAGES = [
+  "English", "French", "Spanish", "German", "Arabic", "Swahili",
+  "Kinyarwanda", "Portuguese", "Chinese", "Japanese", "Hindi",
 ];
 
 type ScannedDoc = {
@@ -53,9 +64,13 @@ type ScannedDoc = {
   flags: string[];
   category: string;
   status: "Uploaded" | "AI Processed" | "Verified" | "Approved" | "Recorded";
+  extractedText: string;
+  summary?: string;
+  keywords?: string[];
+  translation?: { lang: string; text: string };
 };
 
-function mockExtract(file: File, preview: string | null): ScannedDoc {
+function mockExtract(file: File, preview: string | null, extractedText: string): ScannedDoc {
   const id = Math.random().toString(36).slice(2, 9);
   const suppliers = ["Acme Cloud Ltd", "Kigali Logistics", "Nile Tech Co.", "BrightOps SARL", "Savanna Supplies"];
   const customers = ["SavvyAI Inc.", "Northwind Group", "Horizon Labs"];
@@ -96,6 +111,7 @@ function mockExtract(file: File, preview: string | null): ScannedDoc {
     flags,
     category: ["Software", "Logistics", "Office", "Consulting", "Utilities"][Math.floor(Math.random() * 5)],
     status: "AI Processed",
+    extractedText,
   };
 }
 
@@ -116,6 +132,11 @@ export default function SmartScan() {
   const [chatInput, setChatInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const cameraRef = useRef<HTMLInputElement>(null);
+  const [ocrPreview, setOcrPreview] = useState("");
+  const [aiBusy, setAiBusy] = useState<string | null>(null);
+  const [translateLang, setTranslateLang] = useState("French");
+  const [speaking, setSpeaking] = useState(false);
+  const callAI = useServerFn(smartscanAI);
 
   const active = docs.find((d) => d.id === activeId) || null;
 
@@ -125,30 +146,72 @@ export default function SmartScan() {
     setScanning(true);
     setProgress(0);
     setScanStep(0);
+    setOcrPreview("");
 
-    for (let s = 0; s < SCAN_STEPS.length; s++) {
-      setScanStep(s);
-      await new Promise((r) => setTimeout(r, 700));
-      setProgress(((s + 1) / SCAN_STEPS.length) * 100);
+    const newDocs: ScannedDoc[] = [];
+    for (const f of list) {
+      setScanStep(0);
+      setProgress(5);
+      const preview = await new Promise<string | null>((resolve) => {
+        if (f.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve((e.target?.result as string) ?? null);
+          reader.readAsDataURL(f);
+        } else resolve(null);
+      });
+
+      setScanStep(1);
+      setProgress(15);
+
+      let text = "";
+      try {
+        if (f.type.startsWith("image/")) {
+          const { recognize } = await import("tesseract.js");
+          const result = await recognize(f, "eng", {
+            logger: (m: any) => {
+              if (m.status === "recognizing text") {
+                setScanStep(2);
+                const pct = 20 + Math.round(m.progress * 60);
+                setProgress(pct);
+                // live token-ish preview
+              }
+            },
+          });
+          text = result.data.text || "";
+        } else if (f.type === "application/pdf") {
+          // best-effort: read as text fallback
+          text = await f.text().catch(() => "");
+        } else {
+          text = await f.text().catch(() => "");
+        }
+      } catch (err) {
+        console.error("OCR failed", err);
+        toast.error("OCR failed for " + f.name);
+      }
+
+      // Stream extracted text into the live preview
+      setScanStep(3);
+      setProgress(85);
+      const chunks = text.match(/.{1,40}/gs) || [];
+      for (let i = 0; i < Math.min(chunks.length, 30); i++) {
+        setOcrPreview((p) => p + chunks[i]);
+        await new Promise((r) => setTimeout(r, 25));
+      }
+      if (chunks.length > 30) setOcrPreview((p) => p + "\n…");
+
+      setScanStep(4);
+      setProgress(93);
+      await new Promise((r) => setTimeout(r, 350));
+      setScanStep(5);
+      setProgress(100);
+
+      newDocs.push(mockExtract(f, preview, text.trim()));
     }
 
-    const newDocs: ScannedDoc[] = await Promise.all(
-      list.map(
-        (f) =>
-          new Promise<ScannedDoc>((resolve) => {
-            if (f.type.startsWith("image/")) {
-              const reader = new FileReader();
-              reader.onload = (e) => resolve(mockExtract(f, e.target?.result as string));
-              reader.readAsDataURL(f);
-            } else {
-              resolve(mockExtract(f, null));
-            }
-          })
-      )
-    );
     setDocs((prev) => [...newDocs, ...prev]);
     setActiveId(newDocs[0].id);
     setScanning(false);
+    toast.success(`Scanned ${newDocs.length} document${newDocs.length > 1 ? "s" : ""}`);
   }, []);
 
   const onDrop = (e: React.DragEvent) => {
@@ -181,19 +244,91 @@ export default function SmartScan() {
     if (!q) return;
     setMessages((m) => [...m, { role: "user", text: q }]);
     setChatInput("");
-    setTimeout(() => {
-      let answer = "Upload a document first so I can analyze it.";
-      if (active) {
-        const ql = q.toLowerCase();
-        if (ql.includes("vat") || ql.includes("tax")) answer = `VAT for ${active.invoiceNo} is ${active.currency} ${active.vat.toLocaleString()}.`;
-        else if (ql.includes("supplier") || ql.includes("who")) answer = `Supplier is ${active.supplier} (${active.email}).`;
-        else if (ql.includes("summar")) answer = `${active.invoiceNo} from ${active.supplier} for ${active.currency} ${active.total.toLocaleString()}, due ${active.dueDate}. Confidence ${active.confidence}%.`;
-        else if (ql.includes("suspicious") || ql.includes("fraud")) answer = active.flags.length ? `Flags: ${active.flags.join(", ")}.` : "No suspicious activity detected.";
-        else answer = `Total: ${active.currency} ${active.total.toLocaleString()} · Paid: ${active.paid.toLocaleString()} · Remaining: ${active.remaining.toLocaleString()}.`;
+    (async () => {
+      if (!active) {
+        setMessages((m) => [...m, { role: "ai", text: "Upload a document first so I can analyze it." }]);
+        return;
       }
-      setMessages((m) => [...m, { role: "ai", text: answer }]);
-    }, 600);
+      try {
+        const { result } = await callAI({
+          data: { task: "chat", text: active.extractedText || active.title, question: q },
+        });
+        setMessages((m) => [...m, { role: "ai", text: result || "(no answer)" }]);
+      } catch (e: any) {
+        setMessages((m) => [...m, { role: "ai", text: "Error: " + e.message }]);
+      }
+    })();
   };
+
+  const runAITask = async (task: "summary" | "keywords" | "translate") => {
+    if (!active) return toast.error("Select a document first");
+    setAiBusy(task);
+    try {
+      const { result } = await callAI({
+        data: {
+          task,
+          text: active.extractedText || active.title,
+          targetLanguage: translateLang,
+        },
+      });
+      setDocs((prev) =>
+        prev.map((d) =>
+          d.id !== active.id
+            ? d
+            : task === "summary"
+              ? { ...d, summary: result }
+              : task === "keywords"
+                ? { ...d, keywords: result.split(",").map((k) => k.trim()).filter(Boolean) }
+                : { ...d, translation: { lang: translateLang, text: result } }
+        )
+      );
+      toast.success(`${task} ready`);
+    } catch (e: any) {
+      toast.error(e.message);
+    } finally {
+      setAiBusy(null);
+    }
+  };
+
+  const speak = (text: string) => {
+    if (!("speechSynthesis" in window)) return toast.error("Narration not supported");
+    if (speaking) {
+      window.speechSynthesis.cancel();
+      setSpeaking(false);
+      return;
+    }
+    const u = new SpeechSynthesisUtterance(text);
+    u.onend = () => setSpeaking(false);
+    u.onerror = () => setSpeaking(false);
+    setSpeaking(true);
+    window.speechSynthesis.speak(u);
+  };
+
+  const exportPDF = () => {
+    if (!active) return;
+    const pdf = new jsPDF();
+    let y = 14;
+    const line = (s: string, size = 11, bold = false) => {
+      pdf.setFontSize(size);
+      pdf.setFont("helvetica", bold ? "bold" : "normal");
+      const wrapped = pdf.splitTextToSize(s, 180);
+      pdf.text(wrapped, 14, y);
+      y += wrapped.length * size * 0.45 + 2;
+      if (y > 280) { pdf.addPage(); y = 14; }
+    };
+    line("SmartScan AI Report", 18, true);
+    line(`${active.title} · ${active.supplier}`, 12, true);
+    line(`Invoice: ${active.invoiceNo} · Total: ${active.currency} ${active.total} · Due: ${active.dueDate}`);
+    y += 4;
+    if (active.summary) { line("Summary", 13, true); line(active.summary); }
+    if (active.keywords?.length) { line("Keywords", 13, true); line(active.keywords.join(", ")); }
+    if (active.translation) { line(`Translation (${active.translation.lang})`, 13, true); line(active.translation.text); }
+    if (active.extractedText) { line("Extracted Text", 13, true); line(active.extractedText.slice(0, 4000)); }
+    pdf.save(`${active.title || "smartscan"}.pdf`);
+    toast.success("PDF exported");
+  };
+
+  useEffect(() => () => { if (speaking) window.speechSynthesis.cancel(); }, [speaking]);
 
   const workflowSteps: ScannedDoc["status"][] = ["Uploaded", "AI Processed", "Verified", "Approved", "Recorded"];
 
