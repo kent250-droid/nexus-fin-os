@@ -18,14 +18,14 @@ import { useServerFn } from "@tanstack/react-start";
 import { smartscanAI } from "@/lib/smartscan.functions";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
+import { processFile } from "@/lib/smartscan-ocr";
 
 // ---------- Mock data generator ----------
 const SCAN_STEPS = [
   "Uploading document...",
-  "Initializing OCR engine...",
-  "Recognizing characters...",
-  "Detecting handwriting & layout...",
-  "Extracting financial data...",
+  "Rendering & preprocessing...",
+  "Recognizing characters (eng + fra)...",
+  "Cleaning extracted text...",
   "Running AI analysis...",
 ];
 
