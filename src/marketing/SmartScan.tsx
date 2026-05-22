@@ -160,58 +160,46 @@ export default function SmartScan() {
         } else resolve(null);
       });
 
-      setScanStep(1);
-      setProgress(15);
-
       let text = "";
       try {
-        if (f.type.startsWith("image/")) {
-          const { recognize } = await import("tesseract.js");
-          const result = await recognize(f, "eng", {
-            logger: (m: any) => {
-              if (m.status === "recognizing text") {
-                setScanStep(2);
-                const pct = 20 + Math.round(m.progress * 60);
-                setProgress(pct);
-                // live token-ish preview
-              }
-            },
-          });
-          text = result.data.text || "";
-        } else if (f.type === "application/pdf") {
-          // best-effort: read as text fallback
-          text = await f.text().catch(() => "");
-        } else {
-          text = await f.text().catch(() => "");
-        }
-      } catch (err) {
-        console.error("OCR failed", err);
-        toast.error("OCR failed for " + f.name);
+        text = await processFile(f, ({ step, progress, preview: prev }) => {
+          if (/Rendering|Preprocessing|Loading|Preparing/i.test(step)) setScanStep(1);
+          else if (/OCR|Recognizing/i.test(step)) setScanStep(2);
+          else if (/Cleaning|Reading text/i.test(step)) setScanStep(3);
+          setProgress(progress);
+          if (prev) setOcrPreview(prev.slice(0, 1500));
+        });
+        if (!text.trim()) throw new Error("No readable text was found in this document.");
+      } catch (err: any) {
+        console.error("Processing failed", err);
+        toast.error(`Could not process ${f.name}: ${err?.message || "unknown error"}`);
+        setScanning(false);
+        setOcrPreview("");
+        return;
       }
 
-      // Stream extracted text into the live preview
-      setScanStep(3);
-      setProgress(85);
-      const chunks = text.match(/.{1,40}/gs) || [];
-      for (let i = 0; i < Math.min(chunks.length, 30); i++) {
-        setOcrPreview((p) => p + chunks[i]);
-        await new Promise((r) => setTimeout(r, 25));
-      }
-      if (chunks.length > 30) setOcrPreview((p) => p + "\n…");
-
+      setOcrPreview(text.slice(0, 1500));
       setScanStep(4);
-      setProgress(93);
-      await new Promise((r) => setTimeout(r, 350));
-      setScanStep(5);
       setProgress(100);
 
       newDocs.push(mockExtract(f, preview, text.trim()));
     }
 
+    if (!newDocs.length) return;
     setDocs((prev) => [...newDocs, ...prev]);
     setActiveId(newDocs[0].id);
     setScanning(false);
     toast.success(`Scanned ${newDocs.length} document${newDocs.length > 1 ? "s" : ""}`);
+    // Auto-summarize first new document
+    const first = newDocs[0];
+    if (first.extractedText) {
+      try {
+        const { result } = await callAI({
+          data: { task: "summary", text: first.extractedText },
+        });
+        setDocs((prev) => prev.map((d) => (d.id === first.id ? { ...d, summary: result } : d)));
+      } catch { /* non-fatal */ }
+    }
   }, []);
 
   const onDrop = (e: React.DragEvent) => {
