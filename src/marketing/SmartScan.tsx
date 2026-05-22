@@ -673,7 +673,7 @@ export default function SmartScan() {
             <motion.div initial={{ opacity: 0, y: 20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 20, scale: 0.95 }}
               className="glass-card border border-border rounded-2xl w-80 sm:w-96 mb-3 shadow-glow overflow-hidden">
               <div className="flex items-center justify-between p-3 border-b border-border gradient-primary">
-                <div className="flex items-center gap-2 text-primary-foreground"><Bot className="h-4 w-4" /><span className="font-semibold text-sm">Ask SmartScan AI</span></div>
+                <div className="flex items-center gap-2 text-primary-foreground"><Bot className="h-4 w-4" /></div>
                 <button onClick={() => setChatOpen(false)} className="text-primary-foreground"><X className="h-4 w-4" /></button>
               </div>
               <ScrollArea className="h-72 p-3">
