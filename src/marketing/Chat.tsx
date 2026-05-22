@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/finance-chat`;
+const CHAT_URL = "/api/finance-chat";
 
 const SUGGESTIONS = [
   "How should I start investing with $1,000?",
@@ -43,10 +43,7 @@ export default function Chat() {
     try {
       const resp = await fetch(CHAT_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: allMessages }),
       });
 

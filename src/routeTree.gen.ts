@@ -26,6 +26,7 @@ import { Route as AppOrgMapRouteImport } from './routes/app.org-map'
 import { Route as AppNarrationRouteImport } from './routes/app.narration'
 import { Route as AppCollaborationRouteImport } from './routes/app.collaboration'
 import { Route as AppAuditRouteImport } from './routes/app.audit'
+import { Route as ApiFinanceChatRouteImport } from './routes/api/finance-chat'
 
 const SmartscanRoute = SmartscanRouteImport.update({
   id: '/smartscan',
@@ -112,6 +113,11 @@ const AppAuditRoute = AppAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => AppRoute,
 } as any)
+const ApiFinanceChatRoute = ApiFinanceChatRouteImport.update({
+  id: '/api/finance-chat',
+  path: '/api/finance-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -123,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/smartscan': typeof SmartscanRoute
+  '/api/finance-chat': typeof ApiFinanceChatRoute
   '/app/audit': typeof AppAuditRoute
   '/app/collaboration': typeof AppCollaborationRoute
   '/app/narration': typeof AppNarrationRoute
@@ -141,6 +148,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/smartscan': typeof SmartscanRoute
+  '/api/finance-chat': typeof ApiFinanceChatRoute
   '/app/audit': typeof AppAuditRoute
   '/app/collaboration': typeof AppCollaborationRoute
   '/app/narration': typeof AppNarrationRoute
@@ -161,6 +169,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/smartscan': typeof SmartscanRoute
+  '/api/finance-chat': typeof ApiFinanceChatRoute
   '/app/audit': typeof AppAuditRoute
   '/app/collaboration': typeof AppCollaborationRoute
   '/app/narration': typeof AppNarrationRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/smartscan'
+    | '/api/finance-chat'
     | '/app/audit'
     | '/app/collaboration'
     | '/app/narration'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/smartscan'
+    | '/api/finance-chat'
     | '/app/audit'
     | '/app/collaboration'
     | '/app/narration'
@@ -219,6 +230,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/smartscan'
+    | '/api/finance-chat'
     | '/app/audit'
     | '/app/collaboration'
     | '/app/narration'
@@ -239,6 +251,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
   SmartscanRoute: typeof SmartscanRoute
+  ApiFinanceChatRoute: typeof ApiFinanceChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -362,6 +375,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAuditRouteImport
       parentRoute: typeof AppRoute
     }
+    '/api/finance-chat': {
+      id: '/api/finance-chat'
+      path: '/api/finance-chat'
+      fullPath: '/api/finance-chat'
+      preLoaderRoute: typeof ApiFinanceChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -399,17 +419,8 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
   SmartscanRoute: SmartscanRoute,
+  ApiFinanceChatRoute: ApiFinanceChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
