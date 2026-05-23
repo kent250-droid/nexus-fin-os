@@ -22,7 +22,6 @@ import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppSyncRouteImport } from './routes/app.sync'
 import { Route as AppRiskRouteImport } from './routes/app.risk'
 import { Route as AppOrganizationsRouteImport } from './routes/app.organizations'
-import { Route as AppOrgMapRouteImport } from './routes/app.org-map'
 import { Route as AppNarrationRouteImport } from './routes/app.narration'
 import { Route as AppCollaborationRouteImport } from './routes/app.collaboration'
 import { Route as AppAuditRouteImport } from './routes/app.audit'
@@ -93,11 +92,6 @@ const AppOrganizationsRoute = AppOrganizationsRouteImport.update({
   path: '/organizations',
   getParentRoute: () => AppRoute,
 } as any)
-const AppOrgMapRoute = AppOrgMapRouteImport.update({
-  id: '/org-map',
-  path: '/org-map',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppNarrationRoute = AppNarrationRouteImport.update({
   id: '/narration',
   path: '/narration',
@@ -133,7 +127,6 @@ export interface FileRoutesByFullPath {
   '/app/audit': typeof AppAuditRoute
   '/app/collaboration': typeof AppCollaborationRoute
   '/app/narration': typeof AppNarrationRoute
-  '/app/org-map': typeof AppOrgMapRoute
   '/app/organizations': typeof AppOrganizationsRoute
   '/app/risk': typeof AppRiskRoute
   '/app/sync': typeof AppSyncRoute
@@ -152,7 +145,6 @@ export interface FileRoutesByTo {
   '/app/audit': typeof AppAuditRoute
   '/app/collaboration': typeof AppCollaborationRoute
   '/app/narration': typeof AppNarrationRoute
-  '/app/org-map': typeof AppOrgMapRoute
   '/app/organizations': typeof AppOrganizationsRoute
   '/app/risk': typeof AppRiskRoute
   '/app/sync': typeof AppSyncRoute
@@ -173,7 +165,6 @@ export interface FileRoutesById {
   '/app/audit': typeof AppAuditRoute
   '/app/collaboration': typeof AppCollaborationRoute
   '/app/narration': typeof AppNarrationRoute
-  '/app/org-map': typeof AppOrgMapRoute
   '/app/organizations': typeof AppOrganizationsRoute
   '/app/risk': typeof AppRiskRoute
   '/app/sync': typeof AppSyncRoute
@@ -195,7 +186,6 @@ export interface FileRouteTypes {
     | '/app/audit'
     | '/app/collaboration'
     | '/app/narration'
-    | '/app/org-map'
     | '/app/organizations'
     | '/app/risk'
     | '/app/sync'
@@ -214,7 +204,6 @@ export interface FileRouteTypes {
     | '/app/audit'
     | '/app/collaboration'
     | '/app/narration'
-    | '/app/org-map'
     | '/app/organizations'
     | '/app/risk'
     | '/app/sync'
@@ -234,7 +223,6 @@ export interface FileRouteTypes {
     | '/app/audit'
     | '/app/collaboration'
     | '/app/narration'
-    | '/app/org-map'
     | '/app/organizations'
     | '/app/risk'
     | '/app/sync'
@@ -347,13 +335,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppOrganizationsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/org-map': {
-      id: '/app/org-map'
-      path: '/org-map'
-      fullPath: '/app/org-map'
-      preLoaderRoute: typeof AppOrgMapRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/app/narration': {
       id: '/app/narration'
       path: '/narration'
@@ -389,7 +370,6 @@ interface AppRouteChildren {
   AppAuditRoute: typeof AppAuditRoute
   AppCollaborationRoute: typeof AppCollaborationRoute
   AppNarrationRoute: typeof AppNarrationRoute
-  AppOrgMapRoute: typeof AppOrgMapRoute
   AppOrganizationsRoute: typeof AppOrganizationsRoute
   AppRiskRoute: typeof AppRiskRoute
   AppSyncRoute: typeof AppSyncRoute
@@ -400,7 +380,6 @@ const AppRouteChildren: AppRouteChildren = {
   AppAuditRoute: AppAuditRoute,
   AppCollaborationRoute: AppCollaborationRoute,
   AppNarrationRoute: AppNarrationRoute,
-  AppOrgMapRoute: AppOrgMapRoute,
   AppOrganizationsRoute: AppOrganizationsRoute,
   AppRiskRoute: AppRiskRoute,
   AppSyncRoute: AppSyncRoute,
@@ -424,3 +403,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
