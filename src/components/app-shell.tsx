@@ -1,6 +1,6 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import {
-  LayoutDashboard, ShieldAlert, Network, MessagesSquare, ScrollText,
+  LayoutDashboard, ShieldAlert, MessagesSquare, ScrollText,
   AudioLines, Building2, RefreshCcw, Sparkles, Search, Bell, Wifi, WifiOff,
   Home,
 } from "lucide-react";
@@ -12,7 +12,6 @@ const NAV = [
   { to: "/", label: "Home", icon: Home },
   { to: "/app", label: "Command Center", icon: LayoutDashboard },
   { to: "/app/risk", label: "Risk Intelligence", icon: ShieldAlert },
-  { to: "/app/org-map", label: "Organization Map", icon: Network },
   { to: "/app/collaboration", label: "Collaboration", icon: MessagesSquare },
   { to: "/app/audit", label: "Audit Trail", icon: ScrollText },
   { to: "/app/narration", label: "Voice Briefing", icon: AudioLines },
